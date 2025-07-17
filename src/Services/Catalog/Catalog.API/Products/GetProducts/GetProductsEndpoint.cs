@@ -19,11 +19,11 @@ public class GetProductsEndpoint : ICarterModule
             var response= result.Adapt<GetProductsResponse>();
 
             return Results.Ok(response);
-        }).WithName("GetProduct")
+        }).WithName("GetProducts")
           .Produces<CreateProductResponse>(StatusCodes.Status200OK)
           .ProducesProblem(StatusCodes.Status400BadRequest)
-          .WithSummary("Get Product")
-          .WithDescription("Get Product");
+          .WithSummary("Get Products")
+          .WithDescription("Get Products");
 
 
         ;
