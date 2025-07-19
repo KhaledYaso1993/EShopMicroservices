@@ -1,7 +1,8 @@
+using BuildingBlocks.Exceptions.Handler;
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var assembly = typeof(Program).Assembly;
-builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
 
@@ -10,6 +11,8 @@ builder.Services.AddMediatR(config =>
 
 });
 builder.Services.AddValidatorsFromAssembly(assembly);
+builder.Services.AddCarter();
+
 builder.Services.AddMarten(
     opts =>
     {
@@ -17,10 +20,12 @@ builder.Services.AddMarten(
     }
  ).UseLightweightSessions();
 
+builder.Services.AddExceptionHandler<CustomExeptionHandler>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapCarter();
+app.UseExceptionHandler(options => { });
 app.Run();
 
