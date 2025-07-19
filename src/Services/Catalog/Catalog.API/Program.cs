@@ -1,15 +1,18 @@
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+var assembly = typeof(Program).Assembly;
 builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
 
-    config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+    config.RegisterServicesFromAssemblies(assembly);
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 
 });
+builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddMarten(
-    opts => 
-    { 
+    opts =>
+    {
         opts.Connection(builder.Configuration.GetConnectionString("Database")!);
     }
  ).UseLightweightSessions();
