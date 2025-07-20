@@ -1,4 +1,5 @@
 using BuildingBlocks.Exceptions.Handler;
+using Catalog.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -22,6 +23,10 @@ builder.Services.AddMarten(
     }
  ).UseLightweightSessions();
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
 builder.Services.AddExceptionHandler<CustomExeptionHandler>();
 
 var app = builder.Build();
